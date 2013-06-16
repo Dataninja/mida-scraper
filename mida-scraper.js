@@ -22,7 +22,7 @@
   That's all, folks!
 */
 
-var n1 = 1, n1Max = 23, n2 = 1, n2Max = 51, t = 5000, s = "", url = "https://mida.ansa.it/";
+var n1 = 1, n1Max = 23, n2 = 1, n2Max = 51, t = 5000, elenco = "", news = "", url = "https://mida.ansa.it/";
 
 var p = window.open(url);
 
@@ -30,11 +30,13 @@ var f1 = function() {
   if (n1 < n1Max) {
     p.viewPage(n1);
     setTimeout(function() {
-      s = s + p.document.body.innerHTML;
+      elenco = elenco + p.document.body.innerHTML;
       f2();
     }, t);
   } else {
-    console.log(s);
+    elenco = "<html><body>" + elenco + "</body></html>";
+    news = "<html><body>" + news + "</body></html>";
+    console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news.");
   }
   n1++;
 }
@@ -43,7 +45,7 @@ var f2 = function() {
   if (n2 < n2Max) {
     p.viewNews(n2);
     setTimeout(function() {
-      s = s + p.document.body.innerHTML;
+      news = news + p.document.body.innerHTML;
       p.gotogrid();
       setTimeout(f2, t);
     }, t);
