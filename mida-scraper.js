@@ -17,7 +17,7 @@
   che sarà stampata nella console (attenzione, potrebbe essere un sacco di roba!).
   
   Copiare e incollare in un editor di testo il contenuto della console
-  (se è un sacco di roba, potrebbe essere necessario aspettare un po'!).
+  (se è un sacco di roba, potrebbe essere necessario aspettare un po').
   
   That's all, folks!
 */
@@ -36,7 +36,7 @@ var f1 = function() {
   } else {
     elenco = "<html><body>" + elenco + "</body></html>";
     news = "<html><body>" + news + "</body></html>";
-    console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news.");
+    console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(elenco) e copy(news).");
   }
   n1++;
 }
