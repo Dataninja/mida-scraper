@@ -29,7 +29,10 @@ var p = window.open(url);
 var f1 = function() {
   if (n1 < n1Max) {
     p.viewPage(n1);
-    setTimeout(function() { // Forse migliorabile usando onload: http://stackoverflow.com/questions/19671220/document-ready-fires-immediately-for-window-open-context
+    // Forse migliorabile usando onload: http://stackoverflow.com/questions/19671220/document-ready-fires-immediately-for-window-open-context
+    // O anche il costrutto p.addEventListener('load', p.doSomething, true); da http://stackoverflow.com/questions/1372022/waiting-for-child-window-loading-to-complete
+    // Ma potrebbe non bastare: http://stackoverflow.com/questions/9491945/when-passing-data-from-parent-to-child-with-window-open-why-do-i-get-cannot-re
+    setTimeout(function() {
       elenco = elenco + p.document.body.innerHTML;
       f2();
     }, t);
