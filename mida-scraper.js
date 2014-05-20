@@ -22,26 +22,32 @@
   That's all, folks!
 */
 
-var n1 = 1, n1Max = 23, n2 = 1, n2Max = 51, t = 5000, elenco = "", news = "", url = "https://mida.ansa.it/";
+var n1 = 1, n1Max = 23, n2 = 1, n2Max = 51, t = 1000, elenco = "", news = "", url = "https://mida.ansa.it/";
 
 var p = window.open(url);
 
+f1();
+
 var f1 = function() {
-  if (n1 < n1Max) {
-    p.viewPage(n1);
-    // Forse migliorabile usando onload: http://stackoverflow.com/questions/19671220/document-ready-fires-immediately-for-window-open-context
-    // O anche il costrutto p.addEventListener('load', p.doSomething, true); da http://stackoverflow.com/questions/1372022/waiting-for-child-window-loading-to-complete
-    // Ma potrebbe non bastare: http://stackoverflow.com/questions/9491945/when-passing-data-from-parent-to-child-with-window-open-why-do-i-get-cannot-re
-    setTimeout(function() {
-      elenco = elenco + p.document.body.innerHTML;
-      f2();
-    }, t);
+  if (!p.window) {
+    setTimeout(f1,t);
   } else {
-    elenco = "<html><body>" + elenco + "</body></html>";
-    news = "<html><body>" + news + "</body></html>";
-    console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(elenco) e copy(news).");
+    if (n1 < n1Max) {
+      p.viewPage(n1);
+      // Forse migliorabile usando onload: http://stackoverflow.com/questions/19671220/document-ready-fires-immediately-for-window-open-context
+      // O anche il costrutto p.addEventListener('load', p.doSomething, true); da http://stackoverflow.com/questions/1372022/waiting-for-child-window-loading-to-complete
+      // Ma potrebbe non bastare: http://stackoverflow.com/questions/9491945/when-passing-data-from-parent-to-child-with-window-open-why-do-i-get-cannot-re
+      setTimeout(function() {
+        elenco = elenco + p.document.body.innerHTML;
+        f2();
+      }, t);
+    } else {
+      elenco = "<html><body>" + elenco + "</body></html>";
+      news = "<html><body>" + news + "</body></html>";
+      console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(elenco) e copy(news).");
+    }
+    n1++;
   }
-  n1++;
 }
 
 var f2 = function() {
