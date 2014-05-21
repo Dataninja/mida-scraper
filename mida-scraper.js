@@ -22,11 +22,31 @@
   That's all, folks!
 */
 
-var n1 = 1, n1Max = 23, n2 = 1, n2Max = 51, t = 1000, elenco = "", news = "", url = "https://mida.ansa.it/";
+var url = "https://mida.ansa.it/";
+var n1 = 1, n1Max = 21, n2 = 1, n2Max = 51, t = 1000;
+var news = {
+  title: {
+    html: "", 
+    csv: ""
+  }, 
+  body: {
+    html: "", 
+    csv: ""
+  }
+};
 
 var p = window.open(url);
 
 f1();
+
+var f11() {
+  if(!p.window) {
+    setTimeout(f11,t);
+  } else {
+    news.title.html += p.document.body.innerHTML;
+    f2();
+  }
+}
 
 var f1 = function() {
   if (!p.window) {
@@ -34,17 +54,11 @@ var f1 = function() {
   } else {
     if (n1 < n1Max) {
       p.viewPage(n1);
-      // Forse migliorabile usando onload: http://stackoverflow.com/questions/19671220/document-ready-fires-immediately-for-window-open-context
-      // O anche il costrutto p.addEventListener('load', p.doSomething, true); da http://stackoverflow.com/questions/1372022/waiting-for-child-window-loading-to-complete
-      // Ma potrebbe non bastare: http://stackoverflow.com/questions/9491945/when-passing-data-from-parent-to-child-with-window-open-why-do-i-get-cannot-re
-      setTimeout(function() {
-        elenco = elenco + p.document.body.innerHTML;
-        f2();
-      }, t);
+      f11();
     } else {
-      elenco = "<html><body>" + elenco + "</body></html>";
-      news = "<html><body>" + news + "</body></html>";
-      console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(elenco) e copy(news).");
+      news.title.html = "<html><body>" + news.title.html + "</body></html>";
+      news.body.html = "<html><body>" + news.body.html + "</body></html>";
+      console.log("Finito! Digitare console.log(news.title.html) per la pagina html con l'elenco completo delle news scaricate e console.log(news.body.html) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(news.title.html) e copy(news.body.html).");
     }
     n1++;
   }
