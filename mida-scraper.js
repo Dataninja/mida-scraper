@@ -39,34 +39,34 @@ console.log("Scarico tutte le news tra "+n2+" e "+n2Max+" da "+url+"...");
 var p = window.open(url);
 
 var f21 = function() {
-  console.log("###f21");
+  //console.log("###f21");
   if (p.hasOwnProperty("gotogrid") && p.document.readyState === "complete") {
-    console.log("Memorizzo il testo...");
+    console.log("Leggo la news "+n2+"...");
     news.body.html.push(p.document.body.innerHTML);
-    console.log("Torno all'elenco...");
+    //console.log("Torno all'elenco...");
     p.gotogrid();
     f2();
   } else {
-    console.log("Aspetto");
+    //console.log("Aspetto");
     setTimeout(f21,t);
   }
 }
 
 var f2 = function() {
-  console.log("###f2");
+  //console.log("###f2");
   if (p.hasOwnProperty("viewNews") && p.document.readyState === "complete") {
     if (n2 < n2Max) {
-      console.log("Leggo il testo...");
+      //console.log("Carico la news "+n2+"...");
       p.viewNews(n2);
       f21();
     } else {
-      console.log("Metto tutto insieme...");
+      //console.log("Metto tutto insieme...");
       news.body.json = JSON.stringify(news.body.html);
       console.log("Finito! Digitare console.log(news.body.html) per la lista delle pagine di tutte le news. Su Chromium sotto Linux è possibile usare la funzione copy(news.body.json).");
     }
     n2++;
   } else {
-    console.log("Aspetto");
+    //console.log("Aspetto");
     setTimeout(f2,t);
   }
 }
