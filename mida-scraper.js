@@ -5,10 +5,7 @@
   Prima di tutto autenticarsi ed effettuare la ricerca voluta, controllando che nelle impostazioni di layout
   sia specificato "50 risultati per pagina" (è più rapido).
   
-  Poi aprire la console, incollare il codice e modificare i parametri della prima riga:
-  - n1 = numero della pagina da cui cominciare (di solito 1)
-  - n1Max = numero di pagine totali + 1 (questo numero dipende dalla ricerca fatta)
-  - n2Max = numero di risultati per pagina + 1 (come specificato nelle opzioni di layout)
+  Poi aprire la console e incollare il codice qui sotto.
   
   Quindi premere INVIO e attendere. Eventualmente dare il permesso alla pagina di aprire il pop-up.
   La finestra pop-up figlia può essere ridotta a icona, così come quella madre, ma entrambe devono rimanere aperte!
