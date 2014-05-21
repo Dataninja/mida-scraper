@@ -25,11 +25,9 @@ var n2 = 1,
     n2Max = parseInt(r.exec(document.getElementById("td_page_risu").textContent)[0].replace("su ","").replace(".","")),
     t = 1000;
 var news = {
-  body: {
-    html: [], 
-    csv: [],
-    json: ""
-  }
+  html: [], 
+  csv: [],
+  json: []
 };
 
 console.log("Scarico tutte le news tra "+n2+" e "+n2Max+" da "+url+"...");
@@ -39,9 +37,18 @@ var f21 = function() {
   //console.log("###f21");
   if (p.hasOwnProperty("gotogrid") && p.document.readyState === "complete") {
     console.log("Leggo la news "+n2+"...");
-    news.body.html.push(p.document.body.innerHTML);
+    news.html.push(p.document.body.innerHTML);
+    news.json.push({
+      id: n2,
+      date: p.document.evaluate("//tr[@bgcolor='#F7F7F7']/td[1]/font/b",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
+      author: p.document.evaluate("//tr[@bgcolor='#F7F7F7']/td[2]/font/strong",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
+      category: p.document.evaluate("//tr[@bgcolor='#F7F7F7']/td[3]/font/b",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
+      title: p.document.evaluate("//strong/font",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
+      body: p.document.evaluate("//pre",p.document, null, XPathResult.STRING_TYPE, null).stringValue
+    });
     //console.log("Torno all'elenco...");
     p.gotogrid();
+    n2++;
     f2();
   } else {
     //console.log("Aspetto");
@@ -57,11 +64,8 @@ var f2 = function() {
       p.viewNews(n2);
       f21();
     } else {
-      //console.log("Metto tutto insieme...");
-      news.body.json = JSON.stringify(news.body.html);
-      console.log("Finito! Digitare console.log(news.body.html) per la lista delle pagine di tutte le news. Su Chromium sotto Linux è possibile usare la funzione copy(news.body.json).");
+      console.log("Finito! Digitare console.log(news.json) per la lista completa delle news in JSON. Su Chromium sotto Linux è possibile usare la funzione copy(JSON.stringify(news.json)).");
     }
-    n2++;
   } else {
     //console.log("Aspetto");
     setTimeout(f2,t);
