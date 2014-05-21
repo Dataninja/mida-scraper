@@ -22,41 +22,85 @@
   That's all, folks!
 */
 
-var n1 = 1, n1Max = 23, n2 = 1, n2Max = 51, t = 5000, elenco = "", news = "", url = "https://mida.ansa.it/";
+var url = "https://mida.ansa.it/";
+var n1 = 1, n1Max = 21, n2 = 1, n2Max = 51, t = 1000;
+var news = {
+  title: {
+    html: "", 
+    csv: ""
+  }, 
+  body: {
+    html: "", 
+    csv: ""
+  }
+};
 
+//console.log("Apro la prima pagina...");
 var p = window.open(url);
 
-var f1 = function() {
-  if (n1 < n1Max) {
-    p.viewPage(n1);
-    // Forse migliorabile usando onload: http://stackoverflow.com/questions/19671220/document-ready-fires-immediately-for-window-open-context
-    // O anche il costrutto p.addEventListener('load', p.doSomething, true); da http://stackoverflow.com/questions/1372022/waiting-for-child-window-loading-to-complete
-    // Ma potrebbe non bastare: http://stackoverflow.com/questions/9491945/when-passing-data-from-parent-to-child-with-window-open-why-do-i-get-cannot-re
-    setTimeout(function() {
-      elenco = elenco + p.document.body.innerHTML;
-      f2();
-    }, t);
+var f11 = function() {
+  //console.log("###f11");
+  if (p.document.readyState === "complete") {
+    //console.log("Memorizzo il titolo...");
+    news.title.html += p.document.body.innerHTML;
+    f2();
   } else {
-    elenco = "<html><body>" + elenco + "</body></html>";
-    news = "<html><body>" + news + "</body></html>";
-    console.log("Finito! Digitare console.log(elenco) per la pagina html con l'elenco completo delle news scaricate e console.log(news) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(elenco) e copy(news).");
+    //console.log("Aspetto...");
+    setTimeout(f11,t);
   }
-  n1++;
+}
+
+var f1 = function() {
+  //console.log("###f1");
+  if (p.hasOwnProperty("viewPage") && p.document.readyState === "complete") {
+    if (n1 < n1Max) {
+      //console.log("Leggo l'elenco...");
+      p.viewPage(n1);
+      f11();
+    } else {
+      //console.log("Metto tutto insieme...");
+      news.title.html = "<html><body>" + news.title.html + "</body></html>";
+      news.body.html = "<html><body>" + news.body.html + "</body></html>";
+      console.log("Finito! Digitare console.log(news.title.html) per la pagina html con l'elenco completo delle news scaricate e console.log(news.body.html) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(news.title.html) e copy(news.body.html).");
+    }
+    n1++;
+  } else {
+    //console.log("Aspetto");
+    setTimeout(f1,t);
+  }
+}
+
+var f21 = function() {
+  //console.log("###f21");
+  if (p.hasOwnProperty("gotogrid") && p.document.readyState === "complete") {
+    //console.log("Memorizzo il testo...");
+    news.body.html += p.document.body.innerHTML;
+    //console.log("Torno all'elenco...");
+    p.gotogrid();
+    f2();
+  } else {
+    //console.log("Aspetto");
+    setTimeout(f21,t);
+  }
 }
 
 var f2 = function() {
-  if (n2 < n2Max) {
-    p.viewNews(n2);
-    setTimeout(function() { // Idem
-      news = news + p.document.body.innerHTML;
-      p.gotogrid();
-      setTimeout(f2, t);
-    }, t);
+  //console.log("###f2");
+  if (p.hasOwnProperty("viewNews") && p.document.readyState === "complete") {
+    if (n2 < n2Max) {
+      //console.log("Leggo il testo...");
+      p.viewNews(n2);
+      f21();
+    } else {
+      n2 = 0;
+      f1();
+    }
+    n2++;
   } else {
-    n2 = 0;
-    f1();
+    //console.log("Aspetto");
+    setTimeout(f2,t);
   }
-  n2++;
 }
 
-setTimeout(f1, t);
+f1();
+
