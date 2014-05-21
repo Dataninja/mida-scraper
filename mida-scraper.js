@@ -23,26 +23,26 @@
 */
 
 var url = "https://mida.ansa.it/";
-var n1 = 1, n1Max = 21, n2 = 1, n2Max = 51, t = 1000;
+var r = /su \d+\./m;
+var n2 = 1, 
+    n2Max = parseInt(r.exec(document.getElementById("td_page_risu").textContent)[0].replace("su ","").replace(".","")),
+    t = 1000;
 var news = {
-  title: {
-    html: "", 
-    csv: ""
-  }, 
   body: {
-    html: "", 
-    csv: ""
+    html: [], 
+    csv: [],
+    json: ""
   }
 };
 
-console.log("Apro la prima pagina...");
+console.log("Scarico tutte le news tra "+n2+" e "+n2Max+" da "+url+"...");
 var p = window.open(url);
 
 var f21 = function() {
   console.log("###f21");
   if (p.hasOwnProperty("gotogrid") && p.document.readyState === "complete") {
     console.log("Memorizzo il testo...");
-    news.body.html += p.document.body.innerHTML;
+    news.body.html.push(p.document.body.innerHTML);
     console.log("Torno all'elenco...");
     p.gotogrid();
     f2();
@@ -61,9 +61,8 @@ var f2 = function() {
       f21();
     } else {
       console.log("Metto tutto insieme...");
-      news.title.html = "<html><body>" + news.title.html + "</body></html>";
-      news.body.html = "<html><body>" + news.body.html + "</body></html>";
-      console.log("Finito! Digitare console.log(news.title.html) per la pagina html con l'elenco completo delle news scaricate e console.log(news.body.html) per la pagina con la lista vera e propria delle news. Su Chromium sotto Linux è possibile usare la funzione copy(news.title.html) e copy(news.body.html).");
+      news.body.json = JSON.stringify(news.body.html);
+      console.log("Finito! Digitare console.log(news.body.html) per la lista delle pagine di tutte le news. Su Chromium sotto Linux è possibile usare la funzione copy(news.body.json).");
     }
     n2++;
   } else {
