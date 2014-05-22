@@ -27,7 +27,7 @@
 
 var url = "https://mida.ansa.it/";
 var r = /su \d+\./m;
-var n2 = 1, 
+var n2 = n2 || 1, 
     n2Max = parseInt(r.exec(document.getElementById("td_page_risu").textContent)[0].replace("su ","").replace(".","")),
     t = 1000;
 var news = {
