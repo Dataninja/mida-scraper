@@ -1,20 +1,26 @@
 /*
-  Questo codice va eseguito nella console di Chromium (o di un browser qualsiasi provvisto di console),
+  Questo codice è stato testato solo nella console di Chromium Versione 34.0.1847.116 Ubuntu 14.04 aura (260972),
   relativa alla pagina https://mida.ansa.it/.
   
-  Prima di tutto autenticarsi ed effettuare la ricerca voluta, controllando che nelle impostazioni di layout
-  sia specificato "50 risultati per pagina" (è più rapido).
+  Prima di tutto autenticarsi ed effettuare la ricerca voluta.
   
-  Poi aprire la console e incollare il codice qui sotto.
+  Poi aprire la console e incollare il codice qui sotto:
+    var d=document,h=d.getElementsByTagName('head')[0],s=d.createElement('script');s.type='text/javascript';s.src='https://github.com/jenkin/mida-scraper/raw/master/mida-scraper.js';h.appendChild(s);
   
-  Quindi premere INVIO e attendere. Eventualmente dare il permesso alla pagina di aprire il pop-up.
+  Quindi premere INVIO e attendere. Eventualmente dare il permesso alla pagina di aprire un pop-up.
   La finestra pop-up figlia può essere ridotta a icona, così come quella madre, ma entrambe devono rimanere aperte!
   
-  Al termine dell'esecuzione il sorgente di tutte le pagine sarà memorizzato nella variabile s,
-  che sarà stampata nella console (attenzione, potrebbe essere un sacco di roba!).
+  Al termine dell'esecuzione il sorgente di tutte le pagine sarà memorizzato nella variabile news sotto forma di
+  - un array di pagine html (news.html);
+  - un array di oggetti (news.json con id,data,autore,categorie,titolo,testo);
+  - un csv (news.csv con [TAB] come delimitatore).
   
-  Copiare e incollare in un editor di testo il contenuto della console
-  (se è un sacco di roba, potrebbe essere necessario aspettare un po').
+  Per esportare i risultati (anche mentre lo script è in esecuzione) è possibile usare la funzione copy():
+  - copy(news.csv) per il csv completo di intestazione;
+  - copy(JSON.stringify(news.json)) per il json sotto forma di stringa.
+  
+  Se è un sacco di roba, potrebbe essere necessario aspettare un po'. Al termine si avrà tutto nella clipboard, 
+  pronto per essere incollato in un file di testo o direttamente in un foglio di calcolo.
   
   That's all, folks!
 */
