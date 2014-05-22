@@ -7,6 +7,8 @@ Il file js non va eseguito normalmente, includendolo in una pagina web, ma va co
 
     var d=document,h=d.getElementsByTagName('head')[0],s=d.createElement('script');s.type='text/javascript';s.src='https://github.com/jenkin/mida-scraper/raw/master/mida-scraper.js';h.appendChild(s);
 
+Per semplicità puoi trascinare questo bookmarklet nella tua barra dei preferiti: <a onclick="return false;" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="javascript:if(window.location.hostname==='mida.ansa.it'){var d=document,h=d.getElementsByTagName('head')[0],s=d.createElement('script');s.type='text/javascript';s.src='https://github.com/jenkin/mida-scraper/raw/master/mida-scraper.js';h.appendChild(s);}"><span>Scrape your MIDA</span></a>
+
 Tutti i dettagli nel commento iniziale del file.
 
 DISCLAIMER
