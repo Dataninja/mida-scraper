@@ -26,26 +26,38 @@ var n2 = 1,
     t = 1000;
 var news = {
   html: [], 
-  csv: [],
+  csv: "id\tdate\tauthor\tcategory\ttitle\tbody\tempty\n",
   json: []
 };
 
 console.log("Scarico tutte le news tra "+n2+" e "+n2Max+" da "+url+"...");
 var p = window.open(url);
 
+var getNews = function(doc) {
+  return {
+    id: n2.toString(),
+    date: doc.evaluate("//tr[@bgcolor='#F7F7F7']/td[1]/font/b",doc, null, XPathResult.STRING_TYPE, null).stringValue,
+    author: doc.evaluate("//tr[@bgcolor='#F7F7F7']/td[2]/font/strong",doc, null, XPathResult.STRING_TYPE, null).stringValue,
+    category: doc.evaluate("//tr[@bgcolor='#F7F7F7']/td[3]/font/b",doc, null, XPathResult.STRING_TYPE, null).stringValue,
+    title: doc.evaluate("//strong/font",doc, null, XPathResult.STRING_TYPE, null).stringValue,
+    body: doc.evaluate("//pre",doc, null, XPathResult.STRING_TYPE, null).stringValue
+  };
+};
+
 var f21 = function() {
   //console.log("###f21");
   if (p.hasOwnProperty("gotogrid") && p.document.readyState === "complete") {
     console.log("Leggo la news "+n2+"...");
+    var single = getNews(p.document);
     news.html.push(p.document.body.innerHTML);
-    news.json.push({
-      id: n2,
-      date: p.document.evaluate("//tr[@bgcolor='#F7F7F7']/td[1]/font/b",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
-      author: p.document.evaluate("//tr[@bgcolor='#F7F7F7']/td[2]/font/strong",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
-      category: p.document.evaluate("//tr[@bgcolor='#F7F7F7']/td[3]/font/b",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
-      title: p.document.evaluate("//strong/font",p.document, null, XPathResult.STRING_TYPE, null).stringValue,
-      body: p.document.evaluate("//pre",p.document, null, XPathResult.STRING_TYPE, null).stringValue
-    });
+    news.json.push(single);
+    for (var k in single) {
+      if (single.hasOwnProperty(k)) {
+        //console.log(single[k]);
+        news.csv += single[k].replace(/(\r\n|\n|\r|\t)/gm," ")+"\t";
+      }
+    }
+    news.csv += "\n";
     //console.log("Torno all'elenco...");
     p.gotogrid();
     n2++;
@@ -54,7 +66,7 @@ var f21 = function() {
     //console.log("Aspetto");
     setTimeout(f21,t);
   }
-}
+};
 
 var f2 = function() {
   //console.log("###f2");
@@ -70,6 +82,6 @@ var f2 = function() {
     //console.log("Aspetto");
     setTimeout(f2,t);
   }
-}
+};
 
 f2();
