@@ -3,7 +3,9 @@ mida-scraper
 
 Banalissimo ma elegante scraper in javascript per le pagine del motore di ricerca interno dell'archivio dell'ANSA.
 
-Il file js non va eseguito normalmente, includendolo in una pagina web, ma va copiato e incollato nella console del browser.
+Il file js non va eseguito normalmente, includendolo in una pagina web, ma va copiato e incollato nella console del browser questo script che include lo scraper nella pagina del mida:
+
+    var d=document,h=d.getElementsByTagName('head')[0],s=d.createElement('script');s.type='text/javascript';s.src='https://github.com/jenkin/mida-scraper/raw/master/mida-scraper.js';h.appendChild(s);
 
 Tutti i dettagli nel commento iniziale del file.
 
